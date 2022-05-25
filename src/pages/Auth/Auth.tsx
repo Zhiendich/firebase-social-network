@@ -1,12 +1,14 @@
-import React, { SyntheticEvent, useState } from 'react'
+import React, { SyntheticEvent, useEffect, useState } from 'react'
 import Button from '../../components/UI/button/Button'
 import Input from '../../components/UI/input/Input'
 import Style from '../Login/login.module.css'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import { IUserData } from './types';
 import { useAuth } from '../../components/providers/UseAuth'
+import { useNavigate } from "react-router-dom";
 const Auth: React.FC = () => {
-  const { ga } = useAuth()
+  const { ga, user } = useAuth()
+  let navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false)
   const [userData, setUserData] = useState<IUserData>({
     name: '',
@@ -27,6 +29,12 @@ const Auth: React.FC = () => {
     }
     console.log(userData.email, userData.password)
   }
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [user])
   return (
     <div className={Style.form_wrapper} >
       <form onSubmit={handleAuth} className={Style.form} action="">
