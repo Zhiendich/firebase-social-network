@@ -1,0 +1,79 @@
+.form_wrapper{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+      background-color: #1A1F25;
+}
+
+.form {
+    max-width: 400px;
+    max-height: 400px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form_name_flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.linkBorder{
+    border: 1px solid gray;
+    padding: 5px 10px;
+    color: gray;
+    text-decoration: none;
+}
+
+.linkBorder:hover{
+    border: 1px solid #E6B333;
+    color:#E6B333 ;
+}
+
+.checkboxFlex{
+    display: flex;
+    align-items: center;
+}
+.bottom_flex{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+ a{
+ color: white;
+ text-decoration: none;
+}
+.customCheckbox {
+    
+  width: 10px;
+  height: 10px;
+  background: gray;
+  border: 1px solid white;
+  border-radius: 50%;
+  margin-right: 5px;
+  position: relative;
+  }
+  .customCheckbox::before{
+      content: '';
+      position: absolute;
+      display: block;
+      width: 5px;
+      opacity: 0;
+      height: 5px;
+      border-radius: 50%;
+      background: #E6B333;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      transition: .2s;
+  }
+.fakeCheckbox{
+     display: none;
+  }
+  .fakeCheckbox:checked + .customCheckbox::before{
+     opacity: 1;
+  }
