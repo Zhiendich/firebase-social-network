@@ -16,8 +16,7 @@ export const searchPostContext = React.createContext({} as searchContext);
 function App() {
 
   const [value, setValue] = useState('')
-  const [user, setUser] = useState<IUser | null>(null)
-  const ga = getAuth()
+
 
 
 
@@ -25,7 +24,7 @@ function App() {
   return (
 
     <BrowserRouter>
-      <AuthProvider user={user} setUser={setUser} ga={ga}>
+      <AuthProvider>
         <searchPostContext.Provider value={{ value, setValue }}>
 
           <MainPage />

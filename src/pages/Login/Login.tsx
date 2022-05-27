@@ -2,13 +2,19 @@ import React, { useState } from 'react'
 import Button from '../../components/UI/button/Button'
 import Input from '../../components/UI/input/Input'
 import Style from '../Login/login.module.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IUserData } from '../Auth/types';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from '../../components/providers/UseAuth';
+import { users } from '../../components/user/UserItem';
+
+import { Route, Routes } from "react-router-dom";
+import Auth from '../Auth/Auth';
+
 const Login = () => {
   const { ga } = useAuth()
   const [isAuth, setIsAuth] = useState(false)
+  const navigate = useNavigate()
   const [userData, setUserData] = useState<IUserData>({
     email: '',
     password: '',
@@ -20,11 +26,13 @@ const Login = () => {
     if (isAuth) {
       try {
         await signInWithEmailAndPassword(ga, userData.email, userData.password)
+        navigate(`/profile/${users[1].id}`)
       }
       catch (error: any) {
         error.message && alert(error.message)
       }
     }
+
     console.log(userData.email, userData.password)
   }
   return (
@@ -32,14 +40,17 @@ const Login = () => {
       <form onSubmit={handleLogin} className={Style.form} action="">
         <div className={Style.form_name_flex}>
           <h2>Sign In</h2>
-
-          <Link className={Style.linkBorder} to='/auth'>Register</Link>
+          <Link to={'/auth'} className={Style.linkBorder}>Register</Link>
 
 
         </div>
-        <Input value={userData.email} type="text" placeholder='Email' />
-        <Input value={userData.password} type="password" placeholder='Password' />
+
+
+        <Input onChange={(e) => setUserData({ ...userData, email: e.target.value })} value={userData.email} type="text" placeholder='Email' />
+        <Input onChange={(e) => setUserData({ ...userData, password: e.target.value })} value={userData.password} type="password" placeholder='Password' />
         <Button onClick={() => setIsAuth(true)}>Sign In</Button>
+
+
         {/* <div className={Style.bottom_flex}>
           <div  className={Style.checkboxFlex}>
           <label className={Style.customCheckbox}>
@@ -50,9 +61,9 @@ const Login = () => {
           
           <a href="">Lost your password?</a>
         </div> */}
-      </form>
+      </form >
 
-    </div>
+    </div >
   )
 }
 

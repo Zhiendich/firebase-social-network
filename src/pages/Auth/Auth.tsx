@@ -2,10 +2,11 @@ import React, { SyntheticEvent, useEffect, useState } from 'react'
 import Button from '../../components/UI/button/Button'
 import Input from '../../components/UI/input/Input'
 import Style from '../Login/login.module.css'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { IUserData } from './types';
 import { useAuth } from '../../components/providers/UseAuth'
 import { useNavigate } from "react-router-dom";
+
 const Auth: React.FC = () => {
   const { ga, user } = useAuth()
   let navigate = useNavigate();
@@ -21,8 +22,13 @@ const Auth: React.FC = () => {
     const ga = getAuth()
     if (isAuth) {
       try {
-        await createUserWithEmailAndPassword(ga, userData.email, userData.password)
+        const res = await createUserWithEmailAndPassword(ga, userData.email, userData.password)
+        await updateProfile(res.user, {
+          displayName: `${userData.name}  ${userData.surname}`
+        })
+        console.log(res.user.displayName)
       }
+
       catch (error: any) {
         error.message && alert(error.message)
       }

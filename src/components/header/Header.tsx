@@ -1,20 +1,32 @@
 import React, { useState } from 'react'
 import '../../index.css'
-import { initialPosts } from '../../pages/posts/InitialPost'
+import { useAuth } from '../providers/UseAuth'
 import Search from '../search/Search'
-
-
+import { signOut } from 'firebase/auth'
+import { Auth } from "firebase/auth";
+import { useNavigate } from 'react-router-dom'
 const Header = () => {
-
- 
+  const { user, ga } = useAuth()
+  const navigate = useNavigate()
+  function signOutHandler() {
+    signOut(ga as Auth)
+    navigate('/login')
+  }
   return (
     <div className='header_flex'>
-       <a href="" className="logo">
-      
-         <img src="https://cdn.dribbble.com/users/24078/screenshots/15522433/media/e92e58ec9d338a234945ae3d3ffd5be3.jpg?compress=1&resize=400x300" style={{width : '50px', height: '50px'}} alt="" />
-       </a>
-     <Search/>
-       <h4><a href="">Log out</a></h4>
+      <a href="" className="logo">
+        <img className='logout_avatar' src={user?.avatar} alt="" />
+        <h4 className='logout_name'>{user?.name}</h4>
+
+
+      </a>
+      <Search />
+
+
+
+      <button onClick={signOutHandler} className='logout_button'><h4>LogOut</h4></button>
+
+
     </div>
   )
 }
