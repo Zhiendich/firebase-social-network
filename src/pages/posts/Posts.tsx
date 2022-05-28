@@ -4,7 +4,7 @@ import { useAuth } from '../../components/providers/UseAuth'
 import { IPost } from '../../types'
 import { initialPosts } from './InitialPost'
 import Post from './post/Post'
-import { collection, addDoc, getFirestore, Firestore, getDocs, onSnapshot, doc, QuerySnapshot } from "firebase/firestore";
+import { collection, addDoc, Firestore, onSnapshot } from "firebase/firestore";
 
 
 const Posts: React.FC = () => {
@@ -12,6 +12,9 @@ const Posts: React.FC = () => {
   const [postContent, setPostContent] = useState('')
   const { value: searchString } = useContext(searchPostContext)
   const { user, db } = useAuth()
+  const searchPosts = posts.filter(post => post.content.toLowerCase().includes(searchString.toLowerCase()))
+
+
   useEffect(() => {
 
     try {
@@ -19,7 +22,7 @@ const Posts: React.FC = () => {
 
         doc.forEach((d: any) => {
           console.log(d.data())
-          // setPosts(prev => [...prev, d.data()])
+          setPosts(prev => [d.data(), ...prev])
         })
 
       })
@@ -34,27 +37,28 @@ const Posts: React.FC = () => {
 
   }, [])
 
-  const searchPosts = posts.filter(post => post.content.toLowerCase().includes(searchString.toLowerCase()))
-
-
-
   async function addPost(e: React.MouseEvent<HTMLButtonElement>) {
     if (user) {
       try {
         await addDoc(collection(db as Firestore, "posts"), {
-          autor: user,
-          postContent,
-          createdAd: '10 minut ago'
+          author: user,
+          content: postContent,
+          createdAd: new Date().toLocaleString()
 
         });
 
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-      setPosts(prev => [{ author: user, content: postContent, id: 4, createdAt: new Date().toLocaleString() }, ...prev])
+      // setPosts(prev => [{ author: user, content: postContent, createdAt: new Date().toLocaleString() }, ...prev])
       setPostContent('')
     }
   }
+
+
+
+
+
 
   return (
 
