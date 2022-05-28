@@ -14,7 +14,13 @@ const Posts = () => {
   const { user, db } = useAuth()
 
   const searchPosts = useMemo(() => {
-    return posts.filter(post => post.content.toLowerCase().includes(searchString.toLowerCase()))
+    return posts
+      .filter(post => post.content.toLowerCase().includes(searchString.toLowerCase()))
+      .sort((a, b) => {
+        if (a.createdAt > b.createdAt) return 1
+        else if (a.createdAt === b.createdAt) return 0
+        return -1
+      })
   }, [posts, searchString])
 
   useEffect(() => {
