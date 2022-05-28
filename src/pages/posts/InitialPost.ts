@@ -1,5 +1,4 @@
-import { users } from "../../components/user/UserItem"
-
+import { users } from '../../components/user/UserItem'
 
 export const initialPosts = [
   // {

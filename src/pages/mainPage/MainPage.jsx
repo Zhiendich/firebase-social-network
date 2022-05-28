@@ -1,11 +1,11 @@
-import Header from "../../components/header/Header";
-import { useAuth } from "../../components/providers/UseAuth";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Paths from "../../rotes/Paths";
-import Login from "../Login/Login";
+import Header from '../../components/header/Header'
+import { useAuth } from '../../components/providers/UseAuth'
+import Sidebar from '../../components/sidebar/Sidebar'
+import Paths from '../../rotes/Paths'
+import Login from '../Login/Login'
 
 const MainPage = () => {
-  const { user } = useAuth();
+  const { user } = useAuth()
   return (
     // <>
     //   {user ? (
@@ -26,14 +26,14 @@ const MainPage = () => {
     // </>
     <>
       <Header />
-      <div className="mainPage">
+      <div className='mainPage'>
         <Sidebar />
-        <div className="test_block">
+        <div className='test_block'>
           <Paths />
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

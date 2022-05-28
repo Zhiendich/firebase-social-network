@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import Button from '../../components/UI/button/Button'
 import Input from '../../components/UI/input/Input'
 import Style from '../Login/login.module.css'
-import { Link, useNavigate } from 'react-router-dom';
-import { IUserData } from '../Auth/types';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from '../../components/providers/UseAuth';
-import { users } from '../../components/user/UserItem';
+import { Link, useNavigate } from 'react-router-dom'
+import { IUserData } from '../Auth/types'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { useAuth } from '../../components/providers/UseAuth'
+import { users } from '../../components/user/UserItem'
 
-import { Route, Routes } from "react-router-dom";
-import Auth from '../Auth/Auth';
+import { Route, Routes } from 'react-router-dom'
+import Auth from '../Auth/Auth'
 
 const Login = () => {
   const { ga } = useAuth()
@@ -17,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate()
   const [userData, setUserData] = useState<IUserData>({
     email: '',
-    password: '',
+    password: ''
   } as IUserData)
   async function handleLogin(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -27,8 +27,7 @@ const Login = () => {
       try {
         await signInWithEmailAndPassword(ga, userData.email, userData.password)
         navigate(`/profile/${users[1].id}`)
-      }
-      catch (error: any) {
+      } catch (error: any) {
         error.message && alert(error.message)
       }
     }
@@ -36,20 +35,28 @@ const Login = () => {
     console.log(userData.email, userData.password)
   }
   return (
-    <div className={Style.form_wrapper} >
-      <form onSubmit={handleLogin} className={Style.form} action="">
+    <div className={Style.form_wrapper}>
+      <form onSubmit={handleLogin} className={Style.form} action=''>
         <div className={Style.form_name_flex}>
           <h2>Sign In</h2>
-          <Link to={'/auth'} className={Style.linkBorder}>Register</Link>
-
-
+          <Link to={'/auth'} className={Style.linkBorder}>
+            Register
+          </Link>
         </div>
 
-
-        <Input onChange={(e) => setUserData({ ...userData, email: e.target.value })} value={userData.email} type="text" placeholder='Email' />
-        <Input onChange={(e) => setUserData({ ...userData, password: e.target.value })} value={userData.password} type="password" placeholder='Password' />
+        <Input
+          onChange={e => setUserData({ ...userData, email: e.target.value })}
+          value={userData.email}
+          type='text'
+          placeholder='Email'
+        />
+        <Input
+          onChange={e => setUserData({ ...userData, password: e.target.value })}
+          value={userData.password}
+          type='password'
+          placeholder='Password'
+        />
         <Button onClick={() => setIsAuth(true)}>Sign In</Button>
-
 
         {/* <div className={Style.bottom_flex}>
           <div  className={Style.checkboxFlex}>
@@ -61,9 +68,8 @@ const Login = () => {
           
           <a href="">Lost your password?</a>
         </div> */}
-      </form >
-
-    </div >
+      </form>
+    </div>
   )
 }
 

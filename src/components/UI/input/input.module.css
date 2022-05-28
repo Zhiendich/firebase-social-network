@@ -1,9 +1,9 @@
-.input{
-    background: transparent;
-    border: 1px solid gray;
-    padding-left: 10px;
-    max-height: 30px;
-    margin: 10px 0;
-   color: white;
-    height: 100%;
+.input {
+  background: transparent;
+  border: 1px solid gray;
+  padding-left: 10px;
+  max-height: 30px;
+  margin: 10px 0;
+  color: white;
+  height: 100%;
 }
