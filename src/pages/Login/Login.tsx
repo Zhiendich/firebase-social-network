@@ -8,11 +8,9 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useAuth } from '../../components/providers/UseAuth'
 import { users } from '../../components/user/UserItem'
 
-import { Route, Routes } from 'react-router-dom'
-import Auth from '../Auth/Auth'
 
 const Login = () => {
-  const { ga } = useAuth()
+  const { user, ga } = useAuth()
   const [isAuth, setIsAuth] = useState(false)
   const navigate = useNavigate()
   const [userData, setUserData] = useState<IUserData>({
@@ -26,19 +24,21 @@ const Login = () => {
     if (isAuth) {
       try {
         await signInWithEmailAndPassword(ga, userData.email, userData.password)
-        navigate(`/profile/${users[1].id}`)
+
+        navigate(`/profile/${user?.id}`)
       } catch (error: any) {
         error.message && alert(error.message)
       }
     }
 
-    console.log(userData.email, userData.password)
+
   }
   return (
     <div className={Style.form_wrapper}>
       <form onSubmit={handleLogin} className={Style.form} action=''>
         <div className={Style.form_name_flex}>
           <h2>Sign In</h2>
+
           <Link to={'/auth'} className={Style.linkBorder}>
             Register
           </Link>

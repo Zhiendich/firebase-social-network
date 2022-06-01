@@ -16,25 +16,19 @@ const Posts = () => {
   const searchPosts = useMemo(() => {
     return posts
       .filter(post => post.content.toLowerCase().includes(searchString.toLowerCase()))
-      .sort((a, b) => {
-        if (a.createdAt > b.createdAt) return 1
-        else if (a.createdAt === b.createdAt) return 0
-        return -1
-      })
   }, [posts, searchString])
 
   useEffect(() => {
     try {
       const unsub = onSnapshot(collection(db as Firestore, 'posts'), doc => {
-        console.log('onNext:', doc)
-        console.log(typeof doc)
+
 
         let tempArray = [] as IPost[]
 
         doc.forEach((d: any) => {
-          console.log('element d:', d.data())
 
-          tempArray.push(d.data())
+
+          tempArray.unshift(d.data())
         })
 
         setPosts(tempArray)

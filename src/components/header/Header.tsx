@@ -15,7 +15,11 @@ const Header = () => {
   return (
     <div className='header_flex'>
       <a href='' className='logo'>
-        <img className='logout_avatar' src={user?.avatar} alt='' />
+        <div className="avatar">
+          <img className='logout_avatar' src={user?.avatar} alt='' />
+          <div className="online_block"></div>
+        </div>
+
         <h4 className='logout_name'>{user?.name}</h4>
       </a>
       <Search />

@@ -16,16 +16,17 @@ export const AuthProvider: React.FC<IUserContext> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null)
   const ga = getAuth()
   const db = getFirestore()
+
   useEffect(() => {
     const unListen = onAuthStateChanged(ga, authUser => {
       if (authUser)
         setUser(
           authUser
             ? {
-                id: authUser.uid,
-                avatar: users[1].avatar,
-                name: authUser.displayName || ''
-              }
+              id: authUser.uid,
+              avatar: authUser.photoURL || 'https://www.bocconisport.eu/sites/default/files/styles/atleta/public/2021-07/avatar.jpg?itok=s8nv9qjK',
+              name: authUser.displayName || ''
+            }
             : null
         )
       else {

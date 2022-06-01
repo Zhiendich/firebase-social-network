@@ -6,32 +6,49 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase
 import { IUserData } from './types'
 import { useAuth } from '../../components/providers/UseAuth'
 import { useNavigate } from 'react-router-dom'
+import { addDoc, collection, Firestore } from 'firebase/firestore'
+
+
+
 
 const Auth: React.FC = () => {
-  const { ga, user } = useAuth()
+  const { ga, db, user } = useAuth()
   let navigate = useNavigate()
   const [isAuth, setIsAuth] = useState(false)
+
   const [userData, setUserData] = useState<IUserData>({
     name: '',
     surname: '',
     email: '',
     password: ''
   } as IUserData)
+
+
+
+
   async function handleAuth(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault()
     const ga = getAuth()
     if (isAuth) {
       try {
         const res = await createUserWithEmailAndPassword(ga, userData.email, userData.password)
+
         await updateProfile(res.user, {
           displayName: `${userData.name}  ${userData.surname}`
         })
-        console.log(res.user.displayName)
+
+        const document = await addDoc(collection(db as Firestore, 'users'), {
+          name: res.user.displayName,
+          avatar: res.user.photoURL,
+          id: res.user.uid
+
+        })
+        console.log(document.id)
       } catch (error: any) {
         error.message && alert(error.message)
       }
     }
-    console.log(userData.email, userData.password)
+
   }
 
   useEffect(() => {

@@ -15,3 +15,10 @@ export interface IPost {
   content: string
   image?: string[]
 }
+
+export interface IMessage {
+  user : IUser;
+  message : string;
+  createdAt:string;
+
+}

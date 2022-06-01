@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Auth from '../pages/Auth/Auth'
 import Friends from '../pages/Friends/Friends'
 import Login from '../pages/Login/Login'
