@@ -8,9 +8,10 @@ const Paths: React.FC = () => {
 
   return (
     <Routes>
-      {pathRoutes.map(path => {
-        return <Route key={`key ${path.path}`} path={path.path} element={<path.component />} />
-      })}
+
+      {pathRoutes.map(path =>
+        <Route key={`key ${path.path}`} path={path.path} element={<path.component />} />
+      )}
     </Routes>
   )
 }

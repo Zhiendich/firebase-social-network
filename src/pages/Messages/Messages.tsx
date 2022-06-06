@@ -1,16 +1,42 @@
 import { addDoc, collection, Firestore, onSnapshot } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../components/providers/UseAuth'
-import { IMessage } from '../../types'
+import { users } from '../../components/user/UserItem'
+import { IMessage, IUser } from '../../types'
+import MessageUser from './MessageUser'
 
 const Messages: React.FC = () => {
   const { user, db, ga } = useAuth()
+  const [messageUsers, setMessageUsers] = useState<IUser[]>(users)
   const [messages, setMessages] = useState<IMessage[]>([])
   const [messageContent, setMessageContent] = useState('')
 
 
 
+  useEffect(() => {
+    try {
+      const unsub = onSnapshot(collection(db as Firestore, 'users'), doc => {
 
+
+        let tempArray = [] as IUser[]
+
+        doc.forEach((d: any) => {
+          if (user?.id !== d.data().id) {
+            tempArray.unshift(d.data())
+          }
+
+
+        })
+
+        setMessageUsers(tempArray)
+      })
+      return () => {
+        unsub()
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [])
 
 
   useEffect(() => {
@@ -58,13 +84,19 @@ const Messages: React.FC = () => {
     }
   }
 
-  return <div>
+  return <div className='message_component'>
+    <div className="message_sidebar">
+      {messageUsers.map(user => (
+        <MessageUser name={user.name} avatar={user.avatar} />
+      ))}
+
+    </div>
     <div className="message_area">
       <div className="users_messages">
         {messages.map((mes, index) => (
 
           <div key={index} className="user_message">
-            <h3 style={{ border: mes.user.id === user?.id ? '2px solid blue' : '2px solid black', marginLeft: mes.user.id === user?.id ? 'auto' : '10px', order: mes.user.id === user?.id ? '1' : '2' }} className='user_message_text'>{mes.message}</h3>
+            <h3 style={{ background: mes.user.id === user?.id ? '#C7F5D3' : '#BEE2F7', marginLeft: mes.user.id === user?.id ? 'auto' : '10px', order: mes.user.id === user?.id ? '1' : '2' }} className='user_message_text'>{mes.message}</h3>
             <div style={{ order: mes.user.id === user?.id ? '2' : '1', marginLeft: mes.user.id === user?.id ? "10px" : '25px' }} className="message_info">
               {user?.isOnline ? (
                 <div className="avatar">

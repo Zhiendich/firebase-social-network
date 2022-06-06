@@ -66,7 +66,7 @@ const Posts = () => {
           className='search_input'
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPostContent(e.target.value)}
           value={postContent}
-          placeholder='Nikita расскажи что у тебя нового...'
+          placeholder="Tell me what's new..."
           type='text'
         />
         <button className='addPostButton'>Добавить пост</button>

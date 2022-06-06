@@ -6,7 +6,7 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase
 import { IUserData } from './types'
 import { useAuth } from '../../components/providers/UseAuth'
 import { useNavigate } from 'react-router-dom'
-import { addDoc, collection, Firestore } from 'firebase/firestore'
+import { addDoc, collection, documentId, Firestore } from 'firebase/firestore'
 
 
 
@@ -39,10 +39,13 @@ const Auth: React.FC = () => {
 
         const document = await addDoc(collection(db as Firestore, 'users'), {
           name: res.user.displayName,
-          avatar: res.user.photoURL,
+          avatar: res.user.photoURL || 'https://www.bocconisport.eu/sites/default/files/styles/atleta/public/2021-07/avatar.jpg?itok=s8nv9qjK',
           id: res.user.uid
 
+
         })
+
+        console.log(documentId)
         console.log(document.id)
       } catch (error: any) {
         error.message && alert(error.message)

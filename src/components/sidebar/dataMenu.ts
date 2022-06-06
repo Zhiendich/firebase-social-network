@@ -1,7 +1,8 @@
+
 export const meny = [
   {
     title: 'My Page',
-    link: '/profile/:id'
+    link: `/profile/:id`
   },
   {
     title: 'Friends',

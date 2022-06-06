@@ -136,6 +136,7 @@ code {
 }
 .avatar{
   position: relative;
+  cursor : pointer;
 }
 .online_block{
   content: "";
@@ -159,9 +160,34 @@ code {
   color: white;
   cursor: pointer;
 }
+.message_component{
+  display: flex;
+  
+}
+.message_sidebar{
+  flex: 12%;
+  margin-right: 15px;
+  background-color: white;
+  border: 1.5px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+  border-radius: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+}
+.message_sidebar h4 {
+  font-size: 16px;
+  font-weight: 400;
+  width: fit-content;
+  word-wrap: break-word;
+}
 .message_area{
   display: flex;
- 
+ flex : 87%;
   flex-direction: column;
  max-height: 1000px;
   background: white;
@@ -170,6 +196,7 @@ code {
   align-items: center;
   /* justify-content: flex-end; */
 }
+
 .make_message_area{
   width: 95%;
   display: flex;
@@ -197,6 +224,25 @@ code {
   position: absolute;
   top: 12px;
   left: 15px;
+}
+.messageAvatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin-right: 10px;
+}
+.MessageUser{
+  display: flex;
+  align-items: center;
+  width: 150px;
+  padding: 0 5px;
+  margin: 10px 0;
+  cursor: pointer;
+}
+.MessageUser:hover{
+  background-color: #EEF1F6;
+  
 }
 
 .users_messages {
@@ -308,12 +354,25 @@ code {
 
 .user_card {
   padding: 20px;
-  background-color: aqua;
+ border: 2px solid black;
   display: flex;
+  background-color: white;
+  border-radius: 20px;
+  flex-direction : column
+}
+.user_data{
+  display: flex;
+  
+}
+.edit_page{
+  padding-top: 25px;
+  border-top: 2px solid black;
 }
 .user_avatar {
   max-width: 150px;
   max-height: 150px;
+  border-radius: 50%;
+  border: 1.5px solid black;
 }
 .user_name {
   margin-left: 10px;
@@ -322,11 +381,59 @@ code {
 .add_image_button{
   max-width: 150px;
   max-height: 40px;
+  position: absolute;
+  bottom: 0px;
+  cursor: pointer;
+  left: 130px;
+  border-radius: 10px;
+  padding: 2px 7px;
+  background-color: black;
+  color: white;
 }
 
+.change_avatar{
+  position: relative;
+}
+input[type='file'] {
+  color: transparent;
+}
 
+.change_name {
+ margin-top: 30px;
 
+}
+.change_input{
+  margin-top: 25px;
+  border-radius: 15px;
+  padding: 5px 10px;
+  border: 1px solid black;
+  background-color: white;
+}
+.change_name h3{
+  padding: 0;
+  margin: 0;
+  padding-top: 20px;
+  /* border-top: 2px solid black ; */
+}
+.add_name_button {
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 15px;
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+}
 
+.change_status {
+  margin-top: 30px;
+}
+
+.change_status h3{
+  padding: 0;
+  margin: 0;
+  padding-top: 20px;
+  border-top: 2px solid black ;
+}
 
 
 
