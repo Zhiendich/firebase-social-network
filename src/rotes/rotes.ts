@@ -12,7 +12,7 @@ export const pathRoutes = [
   { path: '/posts', component: Posts, auth: true },
   { path: `/profile/*`, component: Profile, auth: true },
   { path: `/friends/*`, component: Friends, auth: true },
-  { path: `/messages/*`, component: Messages, auth: true },
+  { path: `/chats/*`, component: Messages, auth: true },
   { path: '/login', component: Login, auth: false },
   { path: '/auth', component: Auth, auth: false }
 ]

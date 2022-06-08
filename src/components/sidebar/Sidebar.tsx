@@ -9,7 +9,7 @@ const Sidebar = () => {
     <div className='sidebar'>
       <nav className='sidebarFlex'>
         {meny.map(item => (
-          item.link.includes(':id') ?
+          item.title.includes('My Page') ?
             (<NavLink key={item.link} to={`${item.link}/${user?.id}`}>
               {item.title}
             </NavLink>)

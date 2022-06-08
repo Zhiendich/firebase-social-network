@@ -2,15 +2,15 @@
 export const meny = [
   {
     title: 'My Page',
-    link: `/profile/:id`
+    link: `/profile`
   },
   {
-    title: 'Friends',
-    link: '/friends/:id'
+    title: 'Users',
+    link: '/friends/'
   },
   {
     title: 'Messages',
-    link: '/messages/:id'
+    link: '/chats/My'
   },
   {
     title: 'News',

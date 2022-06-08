@@ -1,14 +1,24 @@
+import { DocumentData, } from 'firebase/firestore';
 import React from 'react'
+import { useAuth } from '../../components/providers/UseAuth';
 interface IMessageUser {
-    name: string;
-    avatar: string;
+    name: DocumentData;
+    onClick: () => void
 }
 
-const MessageUser: React.FC<IMessageUser> = ({ name, avatar }) => {
+const MessageUser: React.FC<IMessageUser> = ({ name, onClick }) => {
+    const { user, db } = useAuth()
+    const chatName = name?.users.filter((chat: any) => chat !== user?.name)
+
+
     return (
-        <div className='MessageUser' >
-            <img className='messageAvatar' src={avatar} alt="" />
-            <h4>{name}</h4>
+        <div onClick={onClick} className='MessageUser' >
+
+            <h4>
+
+                {chatName}
+
+            </h4>
 
         </div>
     )

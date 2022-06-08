@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { searchPostContext } from '../../App'
-import { initialPosts } from '../../pages/posts/InitialPost'
-import { useSearch } from '../hooks/useSearch'
+
+
 
 const Search = () => {
   const { value, setValue } = useContext(searchPostContext)

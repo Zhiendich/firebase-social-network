@@ -1,77 +1,37 @@
-import { addDoc, collection, Firestore, onSnapshot } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import { addDoc, collection, doc, Firestore, orderBy, query } from 'firebase/firestore'
+import React, { useState } from 'react'
 import { useAuth } from '../../components/providers/UseAuth'
-import { users } from '../../components/user/UserItem'
-import { IMessage, IUser } from '../../types'
+import { useCollection, useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
 import MessageUser from './MessageUser'
+import { useNavigate } from 'react-router-dom'
+
+
+
+
+
+
+
 
 const Messages: React.FC = () => {
   const { user, db, ga } = useAuth()
-  const [messageUsers, setMessageUsers] = useState<IUser[]>(users)
-  const [messages, setMessages] = useState<IMessage[]>([])
   const [messageContent, setMessageContent] = useState('')
+  const [snapshot, loading, error] = useCollection(collection(db as Firestore, "chats"));
+  const chats = snapshot?.docs.map(doc => ({ id: doc.id, users: doc.data() }))
+  const navigate = useNavigate()
+  const redirect = (id: string) => navigate(`${id}`)
+  const id = String(window.location.href).substring(28)
+  const q = query(collection(db as Firestore, `chats/${id}/chat`), orderBy("createdAt"))
+  const [messages] = useCollectionData(q);
+  const [chatName] = useDocumentData(doc(db as Firestore, "chats", id))
 
-
-
-  useEffect(() => {
-    try {
-      const unsub = onSnapshot(collection(db as Firestore, 'users'), doc => {
-
-
-        let tempArray = [] as IUser[]
-
-        doc.forEach((d: any) => {
-          if (user?.id !== d.data().id) {
-            tempArray.unshift(d.data())
-          }
-
-
-        })
-
-        setMessageUsers(tempArray)
-      })
-      return () => {
-        unsub()
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }, [])
-
-
-  useEffect(() => {
-    try {
-      const unsub = onSnapshot(collection(db as Firestore, 'messages'), doc => {
-
-
-        let tempArray = [] as IMessage[]
-
-        doc.forEach((d: any) => {
-
-          tempArray.push(d.data())
-
-        })
-        const sortMessages = tempArray.sort((a, b) => {
-          if (a.createdAt > b.createdAt) return 1
-          else if (a.createdAt === b.createdAt) return 0
-          return -1
-        })
-        setMessages(tempArray)
-      })
-      return () => {
-        unsub()
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }, [])
+  const nameOfChat = chatName?.users.filter((userName: any) => userName !== user?.name)
 
   const addMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (user) {
       try {
-        await addDoc(collection(db as Firestore, 'messages'), {
+        await addDoc(collection(db as Firestore, `chats/${id}/chat`), {
           user,
           message: messageContent,
           createdAt: new Date().toLocaleTimeString(),
@@ -86,14 +46,18 @@ const Messages: React.FC = () => {
 
   return <div className='message_component'>
     <div className="message_sidebar">
-      {messageUsers.map(user => (
-        <MessageUser name={user.name} avatar={user.avatar} />
+      {chats?.filter(chat => chat.users.users.includes(user?.name)).map(chat => (
+        <MessageUser key={chat.id} name={chat?.users} onClick={() => redirect(chat.id)} />
       ))}
 
     </div>
+
     <div className="message_area">
+      <h3 className="message_name">
+        {nameOfChat}
+      </h3>
       <div className="users_messages">
-        {messages.map((mes, index) => (
+        {messages?.map((mes, index) => (
 
           <div key={index} className="user_message">
             <h3 style={{ background: mes.user.id === user?.id ? '#C7F5D3' : '#BEE2F7', marginLeft: mes.user.id === user?.id ? 'auto' : '10px', order: mes.user.id === user?.id ? '1' : '2' }} className='user_message_text'>{mes.message}</h3>
@@ -118,6 +82,7 @@ const Messages: React.FC = () => {
             </div>
           </div>
         ))}
+
       </div>
       <form onSubmit={addMessage} className="make_message_area">
         <input type="text" onChange={(e) => setMessageContent(e.target.value)} value={messageContent} className="make_message_input" placeholder='Type something...' />

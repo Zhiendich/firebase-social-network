@@ -47,12 +47,12 @@ const Friends = () => {
       <div className='friends'>
         <div className="friends_filter">
           <div className="all_users active_friends">All users</div>
-          <div className="online_friends">My Friends</div>
-          <input className='friends_search' value={friendSort} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFriendSort(e.target.value)} placeholder='Find your new friends' type="text" />
+
+          <input className='friends_search' value={friendSort} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFriendSort(e.target.value)} placeholder='Find user' type="text" />
         </div>
 
         {sortFriend.map(friend => (
-          <Friend id={friend.id} avatar={friend.avatar} name={friend.name} />
+          <Friend key={friend.id} id={friend.id} avatar={friend.avatar} name={friend.name} />
         )
         )}
 
