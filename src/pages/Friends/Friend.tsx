@@ -23,8 +23,8 @@ const Friend: React.FC<IUser> = ({ avatar, name, id }) => {
         const findUser = users?.find(searcUser => searcUser?.userData.id == id)
 
         if (!chatExist(findUser?.userData.name) && findUser?.userData.name !== user?.name) {
-            const chatId = await addDoc(collection(db as Firestore, "chats"), { users: [user?.name, findUser?.userData.name] })
-
+            // const chatId = await addDoc(collection(db as Firestore, "chats"), { users: [user?.name, findUser?.userData.name] })
+            const chatId = await addDoc(collection(db as Firestore, "chats"), { users: [user, findUser?.userData] })
             navigate(`../chats/${chatId.id}`)
         }
 
