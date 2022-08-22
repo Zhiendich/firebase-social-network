@@ -31,27 +31,23 @@ const Auth: React.FC = () => {
     const ga = getAuth()
     if (isAuth) {
       try {
+        // створюється аккаунт
         const res = await createUserWithEmailAndPassword(ga, userData.email, userData.password)
-
+        // з'єднує ім'я користувача та прізвище 
         await updateProfile(res.user, {
           displayName: `${userData.name}  ${userData.surname}`
         })
-
+        // створюється документ у базі с даних с полями имя, аватар та id
         const document = await addDoc(collection(db as Firestore, 'users'), {
           name: res.user.displayName,
           avatar: res.user.photoURL || 'https://www.bocconisport.eu/sites/default/files/styles/atleta/public/2021-07/avatar.jpg?itok=s8nv9qjK',
           id: res.user.uid
-
-
         })
-
-        console.log(documentId)
-        console.log(document.id)
+        // якщо є відображає помилку
       } catch (error: any) {
         error.message && alert(error.message)
       }
     }
-
   }
 
   useEffect(() => {

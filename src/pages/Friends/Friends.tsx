@@ -7,11 +7,11 @@ import { IUser } from '../../types'
 const Friends = () => {
   const [friends, setFriends] = useState<IUser[]>(users)
   const { user, db } = useAuth()
+  // стан для того щоб змінювати и зчитувати текст введенний у інпут
   const [friendSort, setFriendSort] = useState('')
-
   const sortFriend = useMemo(() => {
+    // фильтруваты всіх користувасів відносно тексту введеного у інпут
     return friends.filter(friend => friend.name.toLowerCase().includes(friendSort.toLowerCase()))
-
   }, [friendSort, friends])
 
 

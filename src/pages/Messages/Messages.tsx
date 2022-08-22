@@ -21,18 +21,19 @@ const Messages: React.FC = () => {
 
   const addMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
+    // перевірка на наявність юзер
     if (user) {
       try {
+        // метод додавання в базу даних полів user, самого повідомлення message, та час відправлення createdAt
         await addDoc(collection(db as Firestore, `chats/${id}/chat`), {
           user,
           message: messageContent,
           createdAt: new Date().toLocaleTimeString(),
         })
+        // якщо є помилка вивести її
       } catch (e) {
         console.error('Error adding document: ', e)
       }
-
       setMessageContent('')
     }
   }

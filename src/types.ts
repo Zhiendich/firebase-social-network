@@ -13,12 +13,12 @@ export interface IPost {
   author: IUser
   createdAt: string
   content: string
-  image?: string[]
 }
 
 export interface IMessage {
   user : IUser;
   message : string;
   createdAt:string;
-
 }
+
+

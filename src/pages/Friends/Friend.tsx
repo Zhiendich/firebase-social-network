@@ -14,21 +14,22 @@ const Friend: React.FC<IUser> = ({ avatar, name, id }) => {
     const navigate = useNavigate()
     const [snapshot] = useCollection(collection(db as Firestore, "chats"));
     const chats = snapshot?.docs.map(doc => ({ id: doc.id, users: doc.data() }))
-    const chatExist = (name: string | null) => chats?.find(chat => (chat.users.users.includes(user?.name) && chat.users.users.includes(name)))
+    // метод перевірки існування чату між цими користувачами
+    const chatExist = (name: string | null) => chats?.find(chat => (chat.users.users[0].name.includes(user?.name) && chat.users.users[1].name.includes(name)))
     const [snapshot2] = useCollection(collection(db as Firestore, 'users'))
-    console.log(chats)
+    // метод створення нового чату
     const NewChat = async () => {
-
         const users = snapshot2?.docs.map(doc => ({ id: doc.id, userData: doc.data() }))
+        // шукаємо юзера якого ми вибрали для чату
         const findUser = users?.find(searcUser => searcUser?.userData.id == id)
-
+        // перевіряємо чи є чат між цими користувачами
         if (!chatExist(findUser?.userData.name) && findUser?.userData.name !== user?.name) {
-            // const chatId = await addDoc(collection(db as Firestore, "chats"), { users: [user?.name, findUser?.userData.name] })
+            // створюємо чат
             const chatId = await addDoc(collection(db as Firestore, "chats"), { users: [user, findUser?.userData] })
+            // навігуємо до url цього чату
             navigate(`../chats/${chatId.id}`)
         }
-
-
+        navigate(`../chats/My`)
     }
 
     return (

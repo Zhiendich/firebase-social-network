@@ -19,19 +19,17 @@ const Login = () => {
   } as IUserData)
   async function handleLogin(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    // авторизомуємо користувача
     const ga = getAuth()
+    // ставимо умову якщо користувач існує то авторизуємо його та переносемо на сторінку профайла користувача
     if (isAuth) {
       try {
         await signInWithEmailAndPassword(ga, userData.email, userData.password)
-
         navigate(`/profile/${user?.id}`)
       } catch (error: any) {
         error.message && alert(error.message)
       }
     }
-
-
   }
   return (
     <div className={Style.form_wrapper}>

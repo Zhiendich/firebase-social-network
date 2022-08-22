@@ -5,7 +5,6 @@ import App from './App'
 import * as firebase from 'firebase/app'
 import { getStorage } from 'firebase/storage'
 
-// Your web app's Firebase configuration
 
 // Initialize Firebase
 const firebaseConfig = {

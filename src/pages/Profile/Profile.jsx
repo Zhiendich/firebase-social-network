@@ -19,16 +19,18 @@ const Profile = () => {
   const findUser = users?.find(user => user.userData.id == id)
 
   const uploadImage = async e => {
+    // перевірка чи було вибране зображення
     if (imageUpload == null) {
       return
     }
-
     const imageRef = ref(storage, `avatars/${imageUpload.name + v4()}`)
+    // загружаємо в базу даних зображеня
     await uploadBytes(imageRef, imageUpload)
       .then(async () => {
+        // змінюємо аватар та відновлюємо профіль
         const avatarURL = await getDownloadURL(imageRef)
         updateProfile(ga.currentUser, { photoURL: avatarURL })
-
+        // додаємо зміни в профіль
         const data = onSnapshot(collection(db, 'users'), document => {
           document.forEach(d => {
             if (d.data().id == user.id) {
@@ -40,7 +42,9 @@ const Profile = () => {
       .catch(err => console.error(err))
   }
   const uploadName = e => {
+    // Відновлюємо профіль через зміну стану
     updateProfile(ga.currentUser, { displayName: changeName })
+    // Вносимо зміно до бази даних користувачів
     const dataName = onSnapshot(collection(db, 'users'), document => {
       document.forEach(d => {
         if (d.data().id == user.id) {
